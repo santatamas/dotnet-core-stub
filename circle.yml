@@ -1,0 +1,30 @@
+general:
+   artifacts:
+     - $CIRCLE_TEST_REPORTS
+
+machine:
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - "package_cache"
+
+compile:
+  override:
+    - make build
+
+test:
+  override:
+    - make test
+    - cp -r report/* $CIRCLE_TEST_REPORTS
+
+deployment:
+  aws:
+    branch: master
+    commands:
+      - make publish
+      - make build-containers
+      - docker tag sso-web:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-west-2.amazonaws.com/sso-web:$CIRCLE_BUILD_NUM
+      - docker tag sso-api:latest $AWS_ACCOUNT_ID.dkr.ecr.eu-west-2.amazonaws.com/sso-api:$CIRCLE_BUILD_NUM
+      - make push-containers

@@ -1,0 +1,10 @@
+.vscode
+.idea
+bin
+obj
+publish
+project.lock.json
+report/junit/*
+!report/junit/.gitkeep
+package_cache/
+tools

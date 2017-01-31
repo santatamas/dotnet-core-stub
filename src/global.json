@@ -1,0 +1,8 @@
+{
+    "projects":[
+        "Web",
+        "Web.Tests",
+        "Library",
+        "Api"
+    ]
+}
